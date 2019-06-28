@@ -1,4 +1,4 @@
-package io.virtuelabs.configuration.impl;
+package io.virtuelabs.configuration.service.impl;
 
 import io.grpc.stub.StreamObserver;
 import io.virtuelabs.contract.ConfigRequest;

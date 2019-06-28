@@ -2,7 +2,8 @@ package io.virtuelabs.configuration;
 
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import io.virtuelabs.configuration.impl.ConfigurationServiceImpl;
+import io.virtuelabs.configuration.service.impl.ConfigurationServiceImpl;
+import io.virtuelabs.configuration.ops.Health;
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,6 +19,7 @@ public class Configuration {
     LOGGER.log(Level.INFO, "Preparing the CONFIGURATION gRPC server for start up");
     Server server = ServerBuilder.forPort(runPort)
       .addService(new ConfigurationServiceImpl())
+      .addService(new Health.HealthImpl())
       .build();
     LOGGER.log(Level.INFO, "Starting CONFIGURATION gRPC server");
     server.start();
