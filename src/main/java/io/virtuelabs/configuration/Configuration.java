@@ -12,10 +12,11 @@ public class Configuration {
 
   private static final Logger LOGGER = Logger.getLogger(Configuration.class.getName());
 
-  public static void main(String[] args) throws IOException, InterruptedException {
+  private static final int runPort = Integer.parseInt(System.getenv("RUN_PORT"));
 
+  public static void main(String[] args) throws IOException, InterruptedException {
     LOGGER.log(Level.INFO, "Preparing the CONFIGURATION gRPC server for start up");
-    Server server = ServerBuilder.forPort(20001)
+    Server server = ServerBuilder.forPort(runPort)
       .addService(new ConfigurationServiceImpl())
       .build();
     LOGGER.log(Level.INFO, "Starting CONFIGURATION gRPC server");
@@ -26,7 +27,6 @@ public class Configuration {
       server.shutdown();
       LOGGER.log(Level.INFO,"Sucessfully stopped CONFIGURATION gRPC server");
     }));
-
     server.awaitTermination();
   }
 }
