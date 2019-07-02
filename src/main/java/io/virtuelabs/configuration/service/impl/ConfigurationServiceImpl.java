@@ -4,6 +4,7 @@ import io.grpc.stub.StreamObserver;
 import io.virtuelabs.contract.ConfigRequest;
 import io.virtuelabs.contract.ConfigResponse;
 import io.virtuelabs.contract.ConfigurationServiceGrpc;
+import io.virtuelabs.contract.DeviceType;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,12 +19,19 @@ public class ConfigurationServiceImpl extends ConfigurationServiceGrpc.Configura
   public void sendEvent(ConfigRequest request, StreamObserver<ConfigResponse> responseObserver) {
 
     LOGGER.log(Level.INFO, "Received request from DeviceService for device: {0}", request.getDeviceId());
+
+    int beatFrequency = 0;
     try {
       LOGGER.log(Level.INFO, "Processing request from DeviceService for device: {0}", request.getDeviceId());
       Thread.sleep(addLatencyMs);
+      if (request.getDeviceType() == DeviceType.EDISON){
+        beatFrequency = 5;
+      } else if (request.getDeviceType() == DeviceType.ESP8266){
+        beatFrequency = 10;
+      }
       responseObserver.onNext(
         ConfigResponse.newBuilder()
-          .setBeatFrequency(10)
+          .setBeatFrequency(beatFrequency)
           .build()
       );
     } catch (RuntimeException e) {
